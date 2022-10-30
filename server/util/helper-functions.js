@@ -27,25 +27,29 @@ const generateVerificationToken = async (user) => {
 };
 
 const sendEmail = async (toAddress, htmlPayload, emailSubject) => {
-  let transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com",
-    service: "hotmail",
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.USER,
-      pass: process.env.PASS,
-    },
-  });
+  try {
+    let transporter = nodemailer.createTransport({
+      host: "smtp-mail.outlook.com",
+      service: "hotmail",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASS,
+      },
+    });
 
-  await transporter.sendMail({
-    from: process.env.USER,
-    to: toAddress,
-    subject: emailSubject,
-    html: htmlPayload,
-  });
+    await transporter.sendMail({
+      from: process.env.USER,
+      to: toAddress,
+      subject: emailSubject,
+      html: htmlPayload,
+    });
 
-  console.log(`Email sent successfully to ${toAddress}`);
+    console.log(`Email sent successfully to ${toAddress}`);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const updateInventory = async (base, sauce, cheese) => {
